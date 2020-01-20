@@ -8,8 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "yarn --cwd=./server run build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd=./client install && yarn run --cwd=./client build"
+    "build": "yarn --cwd=./server run build && yarn run --cwd=./client build"
   },
   "engines": {
     "yarn": "1.19.x",
