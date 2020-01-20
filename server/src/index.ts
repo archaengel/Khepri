@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.static('../client/build'));
-app.get('*', (req, res) => {
+app.get('*', (_req: any, res: any) => {
   res.sendFile(resolve(__dirname, '../client/build/index.html'));
 });
 
