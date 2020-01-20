@@ -2,9 +2,9 @@ import express from 'express';
 import { resolve } from 'path';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
+const port = process.env.PORT || 3000;
 
 const app = express();
-const port = 3000;
 
 app.use(express.static('../client/build'));
 app.get('*', (_req: any, res: any) => {
