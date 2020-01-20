@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "heroku-prebuild": "yarn --cwd=/.client install",
+    "heroku-prebuild": "yarn --cwd=./client install",
     "build": "yarn --cwd=./server run build && yarn run --cwd=./client build"
   },
   "engines": {
