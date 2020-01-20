@@ -1,0 +1,17 @@
+{
+  "name": "Khepri",
+  "version": "0.1.0",
+  "description": "Issue tracking software for solo developers and more.",
+  "main": "server/build/index.js",
+  "repository": "git@github.com:archaengel/Khepri.git",
+  "author": "Archaengel <god11341258@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "yarn --cwd=./server run build",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn run --cwd=./client run install && yarn run --cwd=./client build"
+  },
+  "engines": {
+    "yarn": "1.19.x"
+  }
+}

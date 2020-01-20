@@ -1,6 +1,8 @@
 import * as express from 'express';
 import { resolve } from 'path';
 
+const nodeEnv = process.env.NODE_ENV || 'development';
+
 const app = express();
 const port = 3000;
 
