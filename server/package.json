@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "description": "Server app for Khepri Bug Tracking System",
+  "main": "src/index.ts",
+  "author": "Edward Nuno",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^7.17.1"
+  },
+  "engines": {
+    "node": "13.6.x"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.1.8",
+    "@types/pg": "^7.14.1",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
+    "eslint": "^6.8.0",
+    "nodemon": "^2.0.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  },
+  "scripts": {
+    "start": "nodemon src/index.ts",
+    "build": "tsc -p ./"
+  }
+}

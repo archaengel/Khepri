@@ -38,6 +38,9 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": "13.6.x"
+  },
   "devDependencies": {
     "@types/auth0": "^2.20.0",
     "@types/react-router-dom": "^5.1.3"
