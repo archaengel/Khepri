@@ -8,7 +8,8 @@ const app = express();
 
 app.use(express.static('../client/build'));
 app.get('*', (_req: any, res: any) => {
-  res.sendFile(resolve(__dirname, '../client/build/index.html'));
+  // res.sendFile(resolve(__dirname, '../client/build/index.html'));
+  res.send('<h1>hle</h1>');
 });
 
 app.listen(port, () => console.log(`[app]: Now listening on ${port}`));
