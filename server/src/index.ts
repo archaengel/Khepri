@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { resolve } from 'path';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
