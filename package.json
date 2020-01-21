@@ -1,5 +1,5 @@
 {
-  "name": "Khepri",
+  "name": "TradRack",
   "version": "0.1.0",
   "description": "Issue tracking software for solo developers and more.",
   "main": "server/build/index.js",
@@ -16,7 +16,7 @@
     "node": "13.6.x"
   },
   "cacheDirectories": [
-    "client/npm_modules/",
-    "server/npm_modules"
+    "client/node_modules/",
+    "server/node_modules"
   ]
 }

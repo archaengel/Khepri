@@ -1,9 +1,11 @@
-![khepri beetle](./public/khepri_logo.svg)
+![TradRack](./public/tradrack_logo.svg)
+
+# TradRack.io
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
-> Khepri is a multipurpose issue tracker for solo developers, teams, classes, and friends.
+> TradRack is a multipurpose issue tracker for solo developers, teams, classes, and friends.
 
 ## Author
 

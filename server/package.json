@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "0.1.0",
-  "description": "Server app for Khepri Bug Tracking System",
+  "description": "Server for TradRack",
   "main": "src/index.ts",
   "author": "Edward Nuno",
   "license": "MIT",
