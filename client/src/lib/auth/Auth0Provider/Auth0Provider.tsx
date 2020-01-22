@@ -16,7 +16,7 @@ export const Auth0Provider = ({
   onRedirectCallback: (appState: any) => void;
   domain: string;
   client_id: string;
-  redirect_url: string;
+  redirect_uri: string;
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState();
   const [user, setUser] = useState();

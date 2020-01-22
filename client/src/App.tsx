@@ -1,8 +1,7 @@
 import React from 'react';
-import './App.css';
 import { Router, Route, Switch } from 'react-router-dom';
 import { history } from './lib/history';
-import { Login, Profile, NavBar } from './sections';
+import { Login, Profile, NavBar, PrivateRoute } from './sections';
 
 const App: React.FC = () => {
   return (
@@ -11,7 +10,7 @@ const App: React.FC = () => {
         <NavBar />
         <Switch>
           <Route path="/" exact component={Login} />
-          <Route path="/profile" component={Profile} />
+          <PrivateRoute path="/profile" component={Profile} />
         </Switch>
       </Router>
     </div>

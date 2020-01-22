@@ -8,14 +8,23 @@ export const NavBar: React.FC = () => {
   return (
     <div>
       {!isAuthenticated && (
-        <button onClick={() => loginWithRedirect({})}>Log in</button>
+        <button
+          onClick={() =>
+            loginWithRedirect({ appState: { targetUrl: '/profile' } })
+          }
+        >
+          Log in
+        </button>
       )}
 
       {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
-      <span>
-        <Link to="/">Home</Link>
-        <Link to="/profile">Profile</Link>
-      </span>
+
+      {isAuthenticated && (
+        <span>
+          <Link to="/">Home</Link>
+          <Link to="/profile">Profile</Link>
+        </span>
+      )}
     </div>
   );
 };
