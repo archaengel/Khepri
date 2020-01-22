@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { Auth0Provider, useAuth0 } from './lib/auth';
+import { Auth0Provider } from './lib/auth';
 import config from './auth_config.json';
 import { history } from './lib/history';
+
 import * as serviceWorker from './serviceWorker';
 
 const onRedirectCallback = (appState: any) => {
@@ -11,19 +12,6 @@ const onRedirectCallback = (appState: any) => {
     appState && appState.targetUrl
       ? appState.targetUrl
       : window.location.pathname
-  );
-};
-const NavBar = () => {
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-
-  return (
-    <div>
-      {!isAuthenticated && (
-        <button onClick={() => loginWithRedirect({})}>Log in</button>
-      )}
-
-      {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
-    </div>
   );
 };
 
@@ -34,7 +22,6 @@ ReactDOM.render(
     redirect_url={window.location.origin}
     onRedirectCallback={onRedirectCallback}
   >
-    <NavBar />
     <App />
   </Auth0Provider>,
   document.getElementById('root')

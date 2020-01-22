@@ -7,6 +7,11 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.static(resolve(__dirname, '..', '..', 'client', 'build')));
+
+app.get('/:code', (_req, res) => {
+  res.sendFile(resolve(__dirname, '..', '..', 'client', 'build', 'index.html'));
+});
+
 app.get('*', (_req: any, res: any) => {
   res.sendFile(resolve(__dirname, '..', '..', 'client', 'build', 'index.html'));
 });
