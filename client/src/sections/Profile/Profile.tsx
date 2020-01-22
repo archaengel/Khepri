@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth0 } from '../../lib/auth';
+import { Projects } from '../Projects';
 
 export const Profile: React.FC = () => {
   const { loading, user } = useAuth0();
@@ -17,6 +18,7 @@ export const Profile: React.FC = () => {
       />
       <h2>{user.name}</h2>
       <pre>{JSON.stringify(user, null, 2)}</pre>
+      <Projects />
     </div>
   );
 };
