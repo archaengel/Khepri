@@ -4,7 +4,7 @@ export const typeDefs = gql`
   type Project {
     name: String!
     id: ID!
-    issues: [Issue!]
+    issueIds: [ID!]
     lead: ID!
   }
 
@@ -15,19 +15,22 @@ export const typeDefs = gql`
 
   type Issue {
     title: String!
-    project: ID!
-    description: String!
-    author: ID!
+    content: String!
+    authorId: ID!
     id: ID!
     status: String!
   }
 
   type Query {
-    issues: [Issue!]
-    projects: [Project!]
+    user(id: ID!): User
+    users: [User]
+    issue(id: ID!): Issue
+    issuesByProject(issueIds: [ID!]): [Issue]
+    projects(leadId: ID!): [Project]
   }
 
   type Mutation {
+    deleteUser(userId: ID!): User!
     deleteIssue(issueId: ID!): Issue!
     deleteProject(projectId: ID!): Project!
   }

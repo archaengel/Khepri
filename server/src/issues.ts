@@ -1,12 +1,15 @@
-import { user } from './user';
+import { users } from './users';
+import { User } from './lib/types';
+import { ObjectId, DBRef } from 'mongodb';
 
-export const issues = [
-  {
-    title: 'User can login',
-    description: 'As a user ...',
-    id: '001',
-    status: 'backlog',
-    project: '003',
-    author: '001'
-  }
-];
+const issueTemplate = {
+  title: 'User can login',
+  content: 'As a user ...',
+  status: 'backlog'
+};
+
+export const issues = users.map((u: User) => ({
+  ...issueTemplate,
+  authorId: u._id,
+  _id: new ObjectId()
+}));

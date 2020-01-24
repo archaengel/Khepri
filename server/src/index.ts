@@ -1,29 +1,42 @@
-import express from 'express';
+import express, { Application } from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { typeDefs, resolvers } from './graphql';
 import { resolve } from 'path';
 import { projects } from './projects';
+import { connectDatabase } from './database';
+import { Database } from './lib/types';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
-const port = process.env.PORT || 3000;
 
-const app = express();
-const server = new ApolloServer({ typeDefs, resolvers });
+const mount = async (app: Application): Promise<void> => {
+  const db = await connectDatabase();
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: (): { db: Database } => ({ db })
+  });
+  server.applyMiddleware({ app, path: '/api' });
 
-server.applyMiddleware({ app, path: '/api' });
+  app.use(express.static(resolve(__dirname, '..', '..', 'client', 'build')));
 
-app.use(express.static(resolve(__dirname, '..', '..', 'client', 'build')));
+  app.get('/projects', (_req: express.Request, res: express.Response) => {
+    res.json(projects);
+  });
 
-app.get('/projects', (_req, res) => {
-  res.json(projects);
-});
+  app.get('/:code', (_req: express.Request, res: express.Response) => {
+    res.sendFile(
+      resolve(__dirname, '..', '..', 'client', 'build', 'index.html')
+    );
+  });
 
-app.get('/:code', (_req, res) => {
-  res.sendFile(resolve(__dirname, '..', '..', 'client', 'build', 'index.html'));
-});
+  app.get('/', (_req: express.Request, res: express.Response) => {
+    res.sendFile(
+      resolve(__dirname, '..', '..', 'client', 'build', 'index.html')
+    );
+  });
 
-app.get('*', (_req: any, res: any) => {
-  res.sendFile(resolve(__dirname, '..', '..', 'client', 'build', 'index.html'));
-});
+  app.listen(process.env.PORT);
+  console.log(`[app]: Now listening on ${process.env.PORT}`);
+};
 
-app.listen(port, () => console.log(`[app]: Now listening on ${port}`));
+mount(express());

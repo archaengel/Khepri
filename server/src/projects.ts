@@ -1,22 +1,25 @@
 import { issues } from './issues';
+import { Issue, Project } from './lib/types';
+import { users } from './users';
+import { ObjectId } from 'mongodb';
 
-export const projects = [
+export const projects: Project[] = [
   {
     name: 'TradRack.io',
-    id: '001',
-    issues,
-    user: '005'
+    _id: new ObjectId(),
+    issueIds: issues.map((i: Issue) => i._id),
+    leadId: users[0]._id
   },
   {
     name: 'DeathStar',
-    id: '002',
-    issues,
-    user: '005'
+    _id: new ObjectId(),
+    issueIds: issues.map((i: Issue) => i._id),
+    leadId: users[1]._id
   },
   {
     name: 'Mordor Walk',
-    id: '003',
-    issues,
-    user: '005'
+    _id: new ObjectId(),
+    issueIds: issues.map((i: Issue) => i._id),
+    leadId: users[2]._id
   }
 ];
