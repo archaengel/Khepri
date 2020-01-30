@@ -1,43 +1,34 @@
 import { IResolvers } from 'apollo-server-express';
-import { User } from '../../lib/types';
 import { ObjectId } from 'mongodb';
-import { Database } from '../../lib/types';
+import { Prisma, User } from '../../__generated__/prisma-client';
 
 export const userResolvers: IResolvers = {
   Query: {
     user: async (
       _root: undefined,
       { id }: { id: string },
-      { db }: { db: Database }
+      { prisma }: { prisma: Prisma }
     ): Promise<User | null> => {
-      return await db.users.findOne({ _id: new ObjectId(id) });
+      return await prisma.user({ id });
     },
     users: async (
       _root: undefined,
       _args: {},
-      { db }: { db: Database }
+      { prisma }: { prisma: Prisma }
     ): Promise<User[]> => {
-      return await db.users.find({}).toArray();
+      return await prisma.users();
     }
   },
   Mutation: {
     deleteUser: async (
       _root: undefined,
       { userId }: { userId: string },
-      { db }: { db: Database }
+      { prisma }: { prisma: Prisma }
     ): Promise<User> => {
-      const deleteRes = await db.users.findOneAndDelete({
-        _id: new ObjectId(userId)
-      });
-
-      if (!deleteRes.value) {
-        throw new Error('failed to delete user');
-      }
-
-      return deleteRes.value;
+      return await prisma.deleteUser({ id: userId });
     }
   },
   User: {
-    id: (user: User): string => user._id.toString()
+    id: (user: User): string => user.id
   }
 };

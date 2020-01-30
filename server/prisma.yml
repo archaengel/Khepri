@@ -1,3 +1,11 @@
 endpoint: http://localhost:4466
 datamodel: datamodel.prisma
-#TODO: Add seed script
+
+generate:
+  - generator: typescript-client
+    output: src/__generated__/prisma-client
+  - generator: graphql-schema
+    output: src/__generated__/prisma-schema.graphql
+
+seed:
+  run: node_modules/.bin/ts-node ./temp/seed.ts

@@ -1,9 +1,10 @@
 import express, { Application } from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { typeDefs, resolvers } from './graphql';
+import { resolvers, typeDefs } from './graphql';
 import { resolve } from 'path';
 import { projects } from './projects';
 import { connectDatabase } from './database';
+import { prisma, Prisma } from './__generated__/prisma-client';
 import { Database } from './lib/types';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
@@ -13,7 +14,7 @@ const mount = async (app: Application): Promise<void> => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: (): { db: Database } => ({ db })
+    context: (): { prisma: Prisma } => ({ prisma })
   });
   server.applyMiddleware({ app, path: '/api' });
 
@@ -35,8 +36,8 @@ const mount = async (app: Application): Promise<void> => {
     );
   });
 
-  app.listen(process.env.PORT);
-  console.log(`[app]: Now listening on ${process.env.PORT}`);
+  app.listen(process.env.PORT || 5000);
+  console.log(`[app]: Now listening on ${process.env.PORT || 5000}`);
 };
 
 mount(express());

@@ -1,49 +1,33 @@
-import { Issue, Database } from '../../lib/types';
 import { IResolvers } from 'apollo-server-express';
-import { ObjectId } from 'mongodb';
+import { Prisma, Issue } from '../../__generated__/prisma-client';
 
 export const issueResolvers: IResolvers = {
   Query: {
     issue: async (
       _root: undefined,
       { id }: { id: string },
-      { db }: { db: Database }
+      { prisma }: { prisma: Prisma }
     ): Promise<Issue | null> => {
-      return await db.issues.findOne({ _id: new ObjectId(id) });
+      return await prisma.issue({ id });
     },
     issuesByProject: async (
       _root: undefined,
-      { issueIds }: { issueIds: string[] },
-      { db }: { db: Database }
+      { projectId }: { projectId: string },
+      { prisma }: { prisma: Prisma }
     ): Promise<Issue[]> => {
-      let result: Issue[] = [];
-      for (const id of issueIds) {
-        const iss = await db.issues.findOne({ _id: new ObjectId(id) });
-        if (iss) {
-          result = [...result, iss];
-        }
-      }
-      return result;
+      return await prisma.project({ id: projectId }).issues();
     }
   },
   Mutation: {
     deleteIssue: async (
       _root: undefined,
       { id }: { id: string },
-      { db }: { db: Database }
+      { prisma }: { prisma: Prisma }
     ): Promise<Issue> => {
-      const deleteRes = await db.issues.findOneAndDelete({
-        _id: new ObjectId(id)
-      });
-
-      if (!deleteRes.value) {
-        throw new Error('failed to delete issue');
-      }
-
-      return deleteRes.value;
+      return await prisma.deleteIssue({ id });
     }
   },
   Issue: {
-    id: (issue: Issue): string => issue._id.toString()
+    id: (issue: Issue): string => issue.id
   }
 };

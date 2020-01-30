@@ -1,6 +1,7 @@
 type User {
   id: ID! @id
   name: String!
+  projects: [Project]!
 }
 
 type Project {
@@ -10,6 +11,13 @@ type Project {
   lead: User! @relation(link: INLINE)
 }
 
+type Comment {
+  author: User! @relation(link: INLINE)
+  id: ID! @id
+  content: String!
+  issue: Issue! @relation(link: INLINE)
+}
+
 type Issue {
   title: String!
   content: String!
@@ -17,4 +25,5 @@ type Issue {
   id: ID! @id
   status: String!
   project: Project! @relation(link: INLINE)
+  comments: [Comment]!
 }

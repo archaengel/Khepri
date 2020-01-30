@@ -1,35 +1,34 @@
 import { IResolvers } from 'apollo-server-express';
 import { ObjectId } from 'mongodb';
-import { Database, Project } from '../../lib/types';
+import { Prisma, Project } from '../../__generated__/prisma-client';
 
 export const projectResolvers: IResolvers = {
   Query: {
-    projects: async (
+    projectsByLead: async (
       _root: undefined,
       { leadId }: { leadId: string },
-      { db }: { db: Database }
+      { prisma }: { prisma: Prisma }
     ): Promise<Project[]> => {
-      return await db.projects.find({ leadId: new ObjectId(leadId) }).toArray();
+      return await prisma.user({ id: leadId }).projects();
+    },
+    project: async (
+      _root: undefined,
+      { id }: { id: string },
+      { prisma }: { prisma: Prisma }
+    ): Promise<Project | null> => {
+      return await prisma.project({ id });
     }
   },
   Mutation: {
     deleteProject: async (
       _root: undefined,
       { id }: { id: string },
-      { db }: { db: Database }
+      { prisma }: { prisma: Prisma }
     ): Promise<Project> => {
-      const deleteRes = await db.projects.findOneAndDelete({
-        _id: new ObjectId(id)
-      });
-
-      if (!deleteRes.value) {
-        throw new Error('failed to delete project');
-      }
-
-      return deleteRes.value;
+      return await prisma.deleteProject({ id });
     }
   },
   Project: {
-    id: (project: Project): string => project._id.toString()
+    id: (project: Project): string => project.id
   }
 };
