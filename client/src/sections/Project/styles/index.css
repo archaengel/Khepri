@@ -1,0 +1,47 @@
+.project-content {
+  padding: 60px 20px;
+  overflow-x: scroll !important;
+}
+
+.project-content > .ant-row {
+  display: flex;
+  margin-right: 20px;
+  overflow-x: visible;
+}
+
+.project-content > .ant-row:last-child {
+  margin-right: 20px;
+}
+
+.project-board__list {
+  width: 100%;
+}
+
+.project-board__list-item.ant-list-item {
+  width: 100%;
+}
+
+.project-board__list-header-button.ant-btn {
+  width: 100%;
+}
+
+.project-board__list-header-menu.ant-menu {
+  float: right;
+  background: none;
+  line-height: 1.4;
+  border: none;
+}
+
+.project-board__list-header-submenu.ant-menu-submenu {
+  box-shadow: none;
+  margin: none;
+}
+
+.project-board__list-header-title.ant-typography {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project__status-input {
+  padding: 24px 0;
+}

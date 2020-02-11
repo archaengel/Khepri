@@ -1,7 +1,10 @@
 type User {
   id: ID! @id
   name: String!
-  projects: [Project]!
+  avatar: String!
+  contact: String!
+  token: String @unique
+  projects: [Project!]! @scalarList(strategy: RELATION)
 }
 
 type Project {
@@ -9,6 +12,7 @@ type Project {
   id: ID! @id
   issues: [Issue]!
   lead: User! @relation(link: INLINE)
+  statuses: [String!]! @scalarList(strategy: RELATION) 
 }
 
 type Comment {
@@ -23,7 +27,7 @@ type Issue {
   content: String!
   author: User! @relation(link: INLINE)
   id: ID! @id
-  status: String!
+  status: String! @default(value: "Backlog")
   project: Project! @relation(link: INLINE)
   comments: [Comment]!
 }

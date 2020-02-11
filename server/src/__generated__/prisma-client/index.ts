@@ -240,7 +240,17 @@ export type CommentOrderByInput =
   | "content_ASC"
   | "content_DESC";
 
-export type UserOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "avatar_ASC"
+  | "avatar_DESC"
+  | "contact_ASC"
+  | "contact_DESC"
+  | "token_ASC"
+  | "token_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -290,6 +300,48 @@ export interface UserWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  avatar?: Maybe<String>;
+  avatar_not?: Maybe<String>;
+  avatar_in?: Maybe<String[] | String>;
+  avatar_not_in?: Maybe<String[] | String>;
+  avatar_lt?: Maybe<String>;
+  avatar_lte?: Maybe<String>;
+  avatar_gt?: Maybe<String>;
+  avatar_gte?: Maybe<String>;
+  avatar_contains?: Maybe<String>;
+  avatar_not_contains?: Maybe<String>;
+  avatar_starts_with?: Maybe<String>;
+  avatar_not_starts_with?: Maybe<String>;
+  avatar_ends_with?: Maybe<String>;
+  avatar_not_ends_with?: Maybe<String>;
+  contact?: Maybe<String>;
+  contact_not?: Maybe<String>;
+  contact_in?: Maybe<String[] | String>;
+  contact_not_in?: Maybe<String[] | String>;
+  contact_lt?: Maybe<String>;
+  contact_lte?: Maybe<String>;
+  contact_gt?: Maybe<String>;
+  contact_gte?: Maybe<String>;
+  contact_contains?: Maybe<String>;
+  contact_not_contains?: Maybe<String>;
+  contact_starts_with?: Maybe<String>;
+  contact_not_starts_with?: Maybe<String>;
+  contact_ends_with?: Maybe<String>;
+  contact_not_ends_with?: Maybe<String>;
+  token?: Maybe<String>;
+  token_not?: Maybe<String>;
+  token_in?: Maybe<String[] | String>;
+  token_not_in?: Maybe<String[] | String>;
+  token_lt?: Maybe<String>;
+  token_lte?: Maybe<String>;
+  token_gt?: Maybe<String>;
+  token_gte?: Maybe<String>;
+  token_contains?: Maybe<String>;
+  token_not_contains?: Maybe<String>;
+  token_starts_with?: Maybe<String>;
+  token_not_starts_with?: Maybe<String>;
+  token_ends_with?: Maybe<String>;
+  token_not_ends_with?: Maybe<String>;
   projects_every?: Maybe<ProjectWhereInput>;
   projects_some?: Maybe<ProjectWhereInput>;
   projects_none?: Maybe<ProjectWhereInput>;
@@ -393,7 +445,7 @@ export interface IssueCreateWithoutCommentsInput {
   content: String;
   author: UserCreateOneInput;
   id?: Maybe<ID_Input>;
-  status: String;
+  status?: Maybe<String>;
   project: ProjectCreateOneWithoutIssuesInput;
 }
 
@@ -418,6 +470,7 @@ export interface ProjectCreateWithoutIssuesInput {
   name: String;
   id?: Maybe<ID_Input>;
   lead: UserCreateOneWithoutProjectsInput;
+  statuses?: Maybe<ProjectCreatestatusesInput>;
 }
 
 export interface ProjectSubscriptionWhereInput {
@@ -450,10 +503,16 @@ export interface CommentSubscriptionWhereInput {
 export interface UserCreateWithoutProjectsInput {
   id?: Maybe<ID_Input>;
   name: String;
+  avatar: String;
+  contact: String;
+  token?: Maybe<String>;
 }
 
 export interface UserUpdateInput {
   name?: Maybe<String>;
+  avatar?: Maybe<String>;
+  contact?: Maybe<String>;
+  token?: Maybe<String>;
   projects?: Maybe<ProjectUpdateManyWithoutLeadInput>;
 }
 
@@ -479,10 +538,14 @@ export interface ProjectCreateInput {
   id?: Maybe<ID_Input>;
   issues?: Maybe<IssueCreateManyWithoutProjectInput>;
   lead: UserCreateOneWithoutProjectsInput;
+  statuses?: Maybe<ProjectCreatestatusesInput>;
 }
 
 export interface UserUpdateDataInput {
   name?: Maybe<String>;
+  avatar?: Maybe<String>;
+  contact?: Maybe<String>;
+  token?: Maybe<String>;
   projects?: Maybe<ProjectUpdateManyWithoutLeadInput>;
 }
 
@@ -518,7 +581,7 @@ export interface IssueCreateInput {
   content: String;
   author: UserCreateOneInput;
   id?: Maybe<ID_Input>;
-  status: String;
+  status?: Maybe<String>;
   project: ProjectCreateOneWithoutIssuesInput;
   comments?: Maybe<CommentCreateManyWithoutIssueInput>;
 }
@@ -532,11 +595,13 @@ export interface UserUpdateOneRequiredWithoutProjectsInput {
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
+  token?: Maybe<String>;
 }>;
 
 export interface ProjectUpdateWithoutLeadDataInput {
   name?: Maybe<String>;
   issues?: Maybe<IssueUpdateManyWithoutProjectInput>;
+  statuses?: Maybe<ProjectUpdatestatusesInput>;
 }
 
 export interface ProjectUpsertWithoutIssuesInput {
@@ -568,6 +633,9 @@ export interface IssueUpdateManyWithoutProjectInput {
 
 export interface UserUpdateWithoutProjectsDataInput {
   name?: Maybe<String>;
+  avatar?: Maybe<String>;
+  contact?: Maybe<String>;
+  token?: Maybe<String>;
 }
 
 export interface IssueUpdateWithWhereUniqueWithoutProjectInput {
@@ -621,18 +689,23 @@ export interface CommentWhereInput {
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
+  avatar: String;
+  contact: String;
+  token?: Maybe<String>;
   projects?: Maybe<ProjectCreateManyWithoutLeadInput>;
 }
 
 export interface ProjectUpdateWithoutIssuesDataInput {
   name?: Maybe<String>;
   lead?: Maybe<UserUpdateOneRequiredWithoutProjectsInput>;
+  statuses?: Maybe<ProjectUpdatestatusesInput>;
 }
 
 export interface ProjectCreateWithoutLeadInput {
   name: String;
   id?: Maybe<ID_Input>;
   issues?: Maybe<IssueCreateManyWithoutProjectInput>;
+  statuses?: Maybe<ProjectCreatestatusesInput>;
 }
 
 export interface ProjectWhereInput {
@@ -678,7 +751,7 @@ export interface IssueCreateWithoutProjectInput {
   content: String;
   author: UserCreateOneInput;
   id?: Maybe<ID_Input>;
-  status: String;
+  status?: Maybe<String>;
   comments?: Maybe<CommentCreateManyWithoutIssueInput>;
 }
 
@@ -699,15 +772,9 @@ export interface CommentUpsertWithWhereUniqueWithoutIssueInput {
   create: CommentCreateWithoutIssueInput;
 }
 
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+export interface IssueCreateOneWithoutCommentsInput {
+  create?: Maybe<IssueCreateWithoutCommentsInput>;
+  connect?: Maybe<IssueWhereUniqueInput>;
 }
 
 export interface CommentScalarWhereInput {
@@ -744,8 +811,15 @@ export interface CommentScalarWhereInput {
   NOT?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
 }
 
-export interface UserUpdateManyMutationInput {
-  name?: Maybe<String>;
+export interface IssueSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<IssueWhereInput>;
+  AND?: Maybe<IssueSubscriptionWhereInput[] | IssueSubscriptionWhereInput>;
+  OR?: Maybe<IssueSubscriptionWhereInput[] | IssueSubscriptionWhereInput>;
+  NOT?: Maybe<IssueSubscriptionWhereInput[] | IssueSubscriptionWhereInput>;
 }
 
 export interface CommentUpdateManyWithWhereNestedInput {
@@ -753,23 +827,19 @@ export interface CommentUpdateManyWithWhereNestedInput {
   data: CommentUpdateManyDataInput;
 }
 
-export interface ProjectUpdateInput {
+export interface ProjectUpdateManyMutationInput {
   name?: Maybe<String>;
-  issues?: Maybe<IssueUpdateManyWithoutProjectInput>;
-  lead?: Maybe<UserUpdateOneRequiredWithoutProjectsInput>;
+  statuses?: Maybe<ProjectUpdatestatusesInput>;
 }
 
 export interface CommentUpdateManyDataInput {
   content?: Maybe<String>;
 }
 
-export interface IssueUpdateInput {
+export interface IssueUpdateManyMutationInput {
   title?: Maybe<String>;
   content?: Maybe<String>;
-  author?: Maybe<UserUpdateOneRequiredInput>;
   status?: Maybe<String>;
-  project?: Maybe<ProjectUpdateOneRequiredWithoutIssuesInput>;
-  comments?: Maybe<CommentUpdateManyWithoutIssueInput>;
 }
 
 export interface IssueUpsertWithWhereUniqueWithoutProjectInput {
@@ -778,9 +848,8 @@ export interface IssueUpsertWithWhereUniqueWithoutProjectInput {
   create: IssueCreateWithoutProjectInput;
 }
 
-export interface IssueUpsertWithoutCommentsInput {
-  update: IssueUpdateWithoutCommentsDataInput;
-  create: IssueCreateWithoutCommentsInput;
+export interface CommentUpdateManyMutationInput {
+  content?: Maybe<String>;
 }
 
 export interface IssueScalarWhereInput {
@@ -845,11 +914,9 @@ export interface IssueScalarWhereInput {
   NOT?: Maybe<IssueScalarWhereInput[] | IssueScalarWhereInput>;
 }
 
-export interface ProjectCreateManyWithoutLeadInput {
-  create?: Maybe<
-    ProjectCreateWithoutLeadInput[] | ProjectCreateWithoutLeadInput
-  >;
-  connect?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
+export interface UserUpsertWithoutProjectsInput {
+  update: UserUpdateWithoutProjectsDataInput;
+  create: UserCreateWithoutProjectsInput;
 }
 
 export interface IssueUpdateManyWithWhereNestedInput {
@@ -857,11 +924,9 @@ export interface IssueUpdateManyWithWhereNestedInput {
   data: IssueUpdateManyDataInput;
 }
 
-export interface CommentCreateManyWithoutIssueInput {
-  create?: Maybe<
-    CommentCreateWithoutIssueInput[] | CommentCreateWithoutIssueInput
-  >;
-  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+export interface UserCreateOneInput {
+  create?: Maybe<UserCreateInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface IssueUpdateManyDataInput {
@@ -870,15 +935,19 @@ export interface IssueUpdateManyDataInput {
   status?: Maybe<String>;
 }
 
-export interface IssueSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<IssueWhereInput>;
-  AND?: Maybe<IssueSubscriptionWhereInput[] | IssueSubscriptionWhereInput>;
-  OR?: Maybe<IssueSubscriptionWhereInput[] | IssueSubscriptionWhereInput>;
-  NOT?: Maybe<IssueSubscriptionWhereInput[] | IssueSubscriptionWhereInput>;
+export interface IssueCreateManyWithoutProjectInput {
+  create?: Maybe<
+    IssueCreateWithoutProjectInput[] | IssueCreateWithoutProjectInput
+  >;
+  connect?: Maybe<IssueWhereUniqueInput[] | IssueWhereUniqueInput>;
+}
+
+export interface ProjectUpdatestatusesInput {
+  set?: Maybe<String[] | String>;
+}
+
+export interface ProjectCreatestatusesInput {
+  set?: Maybe<String[] | String>;
 }
 
 export interface ProjectUpsertWithWhereUniqueWithoutLeadInput {
@@ -887,10 +956,11 @@ export interface ProjectUpsertWithWhereUniqueWithoutLeadInput {
   create: ProjectCreateWithoutLeadInput;
 }
 
-export interface IssueUpdateManyMutationInput {
-  title?: Maybe<String>;
-  content?: Maybe<String>;
-  status?: Maybe<String>;
+export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
+  avatar?: Maybe<String>;
+  contact?: Maybe<String>;
+  token?: Maybe<String>;
 }
 
 export interface ProjectScalarWhereInput {
@@ -927,9 +997,13 @@ export interface ProjectScalarWhereInput {
   NOT?: Maybe<ProjectScalarWhereInput[] | ProjectScalarWhereInput>;
 }
 
-export interface UserUpsertWithoutProjectsInput {
-  update: UserUpdateWithoutProjectsDataInput;
-  create: UserCreateWithoutProjectsInput;
+export interface IssueUpdateInput {
+  title?: Maybe<String>;
+  content?: Maybe<String>;
+  author?: Maybe<UserUpdateOneRequiredInput>;
+  status?: Maybe<String>;
+  project?: Maybe<ProjectUpdateOneRequiredWithoutIssuesInput>;
+  comments?: Maybe<CommentUpdateManyWithoutIssueInput>;
 }
 
 export interface ProjectUpdateManyWithWhereNestedInput {
@@ -937,11 +1011,11 @@ export interface ProjectUpdateManyWithWhereNestedInput {
   data: ProjectUpdateManyDataInput;
 }
 
-export interface IssueCreateManyWithoutProjectInput {
+export interface CommentCreateManyWithoutIssueInput {
   create?: Maybe<
-    IssueCreateWithoutProjectInput[] | IssueCreateWithoutProjectInput
+    CommentCreateWithoutIssueInput[] | CommentCreateWithoutIssueInput
   >;
-  connect?: Maybe<IssueWhereUniqueInput[] | IssueWhereUniqueInput>;
+  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
 }
 
 export interface IssueUpdateWithoutCommentsDataInput {
@@ -966,24 +1040,37 @@ export interface UserUpsertNestedInput {
 
 export interface ProjectUpdateManyDataInput {
   name?: Maybe<String>;
+  statuses?: Maybe<ProjectUpdatestatusesInput>;
 }
 
-export interface IssueCreateOneWithoutCommentsInput {
-  create?: Maybe<IssueCreateWithoutCommentsInput>;
-  connect?: Maybe<IssueWhereUniqueInput>;
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export interface UserCreateOneInput {
-  create?: Maybe<UserCreateInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface ProjectCreateManyWithoutLeadInput {
+  create?: Maybe<
+    ProjectCreateWithoutLeadInput[] | ProjectCreateWithoutLeadInput
+  >;
+  connect?: Maybe<ProjectWhereUniqueInput[] | ProjectWhereUniqueInput>;
 }
 
-export interface CommentUpdateManyMutationInput {
-  content?: Maybe<String>;
+export interface IssueUpsertWithoutCommentsInput {
+  update: IssueUpdateWithoutCommentsDataInput;
+  create: IssueCreateWithoutCommentsInput;
 }
 
-export interface ProjectUpdateManyMutationInput {
+export interface ProjectUpdateInput {
   name?: Maybe<String>;
+  issues?: Maybe<IssueUpdateManyWithoutProjectInput>;
+  lead?: Maybe<UserUpdateOneRequiredWithoutProjectsInput>;
+  statuses?: Maybe<ProjectUpdatestatusesInput>;
 }
 
 export interface NodeNode {
@@ -993,6 +1080,9 @@ export interface NodeNode {
 export interface UserPreviousValues {
   id: ID_Output;
   name: String;
+  avatar: String;
+  contact: String;
+  token?: String;
 }
 
 export interface UserPreviousValuesPromise
@@ -1000,6 +1090,9 @@ export interface UserPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  avatar: () => Promise<String>;
+  contact: () => Promise<String>;
+  token: () => Promise<String>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -1007,6 +1100,9 @@ export interface UserPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+  contact: () => Promise<AsyncIterator<String>>;
+  token: () => Promise<AsyncIterator<String>>;
 }
 
 export interface CommentEdge {
@@ -1029,6 +1125,7 @@ export interface CommentEdgeSubscription
 export interface Project {
   name: String;
   id: ID_Output;
+  statuses: String[];
 }
 
 export interface ProjectPromise extends Promise<Project>, Fragmentable {
@@ -1044,6 +1141,7 @@ export interface ProjectPromise extends Promise<Project>, Fragmentable {
     last?: Int;
   }) => T;
   lead: <T = UserPromise>() => T;
+  statuses: () => Promise<String[]>;
 }
 
 export interface ProjectSubscription
@@ -1061,6 +1159,7 @@ export interface ProjectSubscription
     last?: Int;
   }) => T;
   lead: <T = UserSubscription>() => T;
+  statuses: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface ProjectNullablePromise
@@ -1078,6 +1177,7 @@ export interface ProjectNullablePromise
     last?: Int;
   }) => T;
   lead: <T = UserPromise>() => T;
+  statuses: () => Promise<String[]>;
 }
 
 export interface AggregateComment {
@@ -1222,11 +1322,17 @@ export interface UserEdgeSubscription
 export interface User {
   id: ID_Output;
   name: String;
+  avatar: String;
+  contact: String;
+  token?: String;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  avatar: () => Promise<String>;
+  contact: () => Promise<String>;
+  token: () => Promise<String>;
   projects: <T = FragmentableArray<Project>>(args?: {
     where?: ProjectWhereInput;
     orderBy?: ProjectOrderByInput;
@@ -1243,6 +1349,9 @@ export interface UserSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
+  contact: () => Promise<AsyncIterator<String>>;
+  token: () => Promise<AsyncIterator<String>>;
   projects: <T = Promise<AsyncIterator<ProjectSubscription>>>(args?: {
     where?: ProjectWhereInput;
     orderBy?: ProjectOrderByInput;
@@ -1259,6 +1368,9 @@ export interface UserNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  avatar: () => Promise<String>;
+  contact: () => Promise<String>;
+  token: () => Promise<String>;
   projects: <T = FragmentableArray<Project>>(args?: {
     where?: ProjectWhereInput;
     orderBy?: ProjectOrderByInput;
@@ -1456,6 +1568,7 @@ export interface AggregateProjectSubscription
 export interface ProjectPreviousValues {
   name: String;
   id: ID_Output;
+  statuses: String[];
 }
 
 export interface ProjectPreviousValuesPromise
@@ -1463,6 +1576,7 @@ export interface ProjectPreviousValuesPromise
     Fragmentable {
   name: () => Promise<String>;
   id: () => Promise<ID_Output>;
+  statuses: () => Promise<String[]>;
 }
 
 export interface ProjectPreviousValuesSubscription
@@ -1470,6 +1584,7 @@ export interface ProjectPreviousValuesSubscription
     Fragmentable {
   name: () => Promise<AsyncIterator<String>>;
   id: () => Promise<AsyncIterator<ID_Output>>;
+  statuses: () => Promise<AsyncIterator<String[]>>;
 }
 
 export interface IssuePreviousValues {

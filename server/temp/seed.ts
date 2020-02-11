@@ -21,13 +21,13 @@ const seed = async (): Promise<void> => {
             content:
               'As a user, I can log in to view a list of my active projects',
             author: { connect: { id: eleven.id } },
-            status: 'backlog'
+            status: 'Backlog'
           },
           {
             title: 'User Story: Logout',
             content: 'As a user, I can log out',
             author: { connect: { id: eleven.id } },
-            status: 'backlog'
+            status: 'Backlog'
           }
         ]
       },
@@ -43,7 +43,7 @@ const seed = async (): Promise<void> => {
           content:
             'As a user, I can deploy a death star base without worrying about rebel attacks.',
           author: { connect: { id: darth.id } },
-          status: 'backlog',
+          status: 'Backlog',
           comments: {
             create: {
               content: 'Slight hiccup...',
@@ -62,7 +62,7 @@ const seed = async (): Promise<void> => {
           title: 'User Story: I shine',
           content: 'As a user, I can make myself shine when danger is near',
           author: { connect: { id: sting.id } },
-          status: 'backlog',
+          status: 'Backlog',
           comments: {
             create: {
               content: 'A fool with a tool is still a fool...',

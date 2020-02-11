@@ -4,14 +4,26 @@ export const typeDefs = gql`
   type Project {
     name: String!
     id: ID!
-    issues: [Issue]!
+    issues: [Issue!]!
+    statuses: [String!]!
     lead: User!
   }
 
   type User {
     id: ID!
     name: String!
-    projects: [Project]!
+    contact: String!
+    avatar: String!
+    token: String
+    projects: [Project!]!
+  }
+
+  type Viewer {
+    id: ID
+    token: String
+    avatar: String
+    didRequest: Boolean!
+    projects: [Project!]!
   }
 
   type Issue {
@@ -21,7 +33,7 @@ export const typeDefs = gql`
     id: ID!
     status: String!
     project: Project!
-    comments: [Comment]!
+    comments: [Comment!]!
   }
 
   type Comment {
@@ -31,20 +43,53 @@ export const typeDefs = gql`
     issue: Issue!
   }
 
+  input LogInInput {
+    code: String!
+  }
+
+  input CreateIssueInput {
+    title: String!
+    content: String!
+    projectId: ID!
+    status: String!
+  }
+
+  input UpdateIssueInput {
+    id: ID!
+    title: String!
+    content: String!
+    status: String!
+  }
+
+  input DeleteIssueInput {
+    id: ID!
+  }
+
+  input UpdateProjectStatusesInput {
+    projectId: ID!
+    statuses: [String!]!
+  }
+
   type Query {
+    authUrl: String!
     user(id: ID!): User
     users: [User]
     issue(id: ID!): Issue
-    issuesByProject(projectId: ID!): [Issue]
+    issuesByProject(projectId: ID!): [Issue!]!
     project(id: ID!): Project
-    projectsByLead(leadId: ID!): [Project]
+    projectsByLead(leadId: ID!): [Project!]!
     comment(id: ID!): Comment
-    commentsByIssue(issueId: ID!): [Comment]
+    commentsByIssue(issueId: ID!): [Comment!]!
   }
 
   type Mutation {
+    logIn(input: LogInInput): Viewer!
+    logOut: Viewer!
+    createIssue(input: CreateIssueInput!): Issue!
+    updateIssue(input: UpdateIssueInput!): Issue!
+    updateProjectStatuses(input: UpdateProjectStatusesInput!): Project!
     deleteUser(userId: ID!): User!
-    deleteIssue(issueId: ID!): Issue!
+    deleteIssue(input: DeleteIssueInput!): Issue!
     deleteProject(projectId: ID!): Project!
     deleteComment(commentId: ID!): Comment!
   }

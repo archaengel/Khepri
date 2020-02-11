@@ -230,7 +230,7 @@ input IssueCreateInput {
   content: String!
   author: UserCreateOneInput!
   id: ID
-  status: String!
+  status: String
   project: ProjectCreateOneWithoutIssuesInput!
   comments: CommentCreateManyWithoutIssueInput
 }
@@ -250,7 +250,7 @@ input IssueCreateWithoutCommentsInput {
   content: String!
   author: UserCreateOneInput!
   id: ID
-  status: String!
+  status: String
   project: ProjectCreateOneWithoutIssuesInput!
 }
 
@@ -259,7 +259,7 @@ input IssueCreateWithoutProjectInput {
   content: String!
   author: UserCreateOneInput!
   id: ID
-  status: String!
+  status: String
   comments: CommentCreateManyWithoutIssueInput
 }
 
@@ -565,6 +565,7 @@ type Project {
   id: ID!
   issues(where: IssueWhereInput, orderBy: IssueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Issue!]
   lead: User!
+  statuses: [String!]!
 }
 
 type ProjectConnection {
@@ -578,6 +579,7 @@ input ProjectCreateInput {
   id: ID
   issues: IssueCreateManyWithoutProjectInput
   lead: UserCreateOneWithoutProjectsInput!
+  statuses: ProjectCreatestatusesInput
 }
 
 input ProjectCreateManyWithoutLeadInput {
@@ -590,16 +592,22 @@ input ProjectCreateOneWithoutIssuesInput {
   connect: ProjectWhereUniqueInput
 }
 
+input ProjectCreatestatusesInput {
+  set: [String!]
+}
+
 input ProjectCreateWithoutIssuesInput {
   name: String!
   id: ID
   lead: UserCreateOneWithoutProjectsInput!
+  statuses: ProjectCreatestatusesInput
 }
 
 input ProjectCreateWithoutLeadInput {
   name: String!
   id: ID
   issues: IssueCreateManyWithoutProjectInput
+  statuses: ProjectCreatestatusesInput
 }
 
 type ProjectEdge {
@@ -617,6 +625,7 @@ enum ProjectOrderByInput {
 type ProjectPreviousValues {
   name: String!
   id: ID!
+  statuses: [String!]!
 }
 
 input ProjectScalarWhereInput {
@@ -675,14 +684,17 @@ input ProjectUpdateInput {
   name: String
   issues: IssueUpdateManyWithoutProjectInput
   lead: UserUpdateOneRequiredWithoutProjectsInput
+  statuses: ProjectUpdatestatusesInput
 }
 
 input ProjectUpdateManyDataInput {
   name: String
+  statuses: ProjectUpdatestatusesInput
 }
 
 input ProjectUpdateManyMutationInput {
   name: String
+  statuses: ProjectUpdatestatusesInput
 }
 
 input ProjectUpdateManyWithoutLeadInput {
@@ -709,14 +721,20 @@ input ProjectUpdateOneRequiredWithoutIssuesInput {
   connect: ProjectWhereUniqueInput
 }
 
+input ProjectUpdatestatusesInput {
+  set: [String!]
+}
+
 input ProjectUpdateWithoutIssuesDataInput {
   name: String
   lead: UserUpdateOneRequiredWithoutProjectsInput
+  statuses: ProjectUpdatestatusesInput
 }
 
 input ProjectUpdateWithoutLeadDataInput {
   name: String
   issues: IssueUpdateManyWithoutProjectInput
+  statuses: ProjectUpdatestatusesInput
 }
 
 input ProjectUpdateWithWhereUniqueWithoutLeadInput {
@@ -803,6 +821,9 @@ type Subscription {
 type User {
   id: ID!
   name: String!
+  avatar: String!
+  contact: String!
+  token: String
   projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project!]
 }
 
@@ -815,6 +836,9 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String!
+  avatar: String!
+  contact: String!
+  token: String
   projects: ProjectCreateManyWithoutLeadInput
 }
 
@@ -831,6 +855,9 @@ input UserCreateOneWithoutProjectsInput {
 input UserCreateWithoutProjectsInput {
   id: ID
   name: String!
+  avatar: String!
+  contact: String!
+  token: String
 }
 
 type UserEdge {
@@ -843,11 +870,20 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  avatar_ASC
+  avatar_DESC
+  contact_ASC
+  contact_DESC
+  token_ASC
+  token_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   name: String!
+  avatar: String!
+  contact: String!
+  token: String
 }
 
 type UserSubscriptionPayload {
@@ -870,16 +906,25 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateDataInput {
   name: String
+  avatar: String
+  contact: String
+  token: String
   projects: ProjectUpdateManyWithoutLeadInput
 }
 
 input UserUpdateInput {
   name: String
+  avatar: String
+  contact: String
+  token: String
   projects: ProjectUpdateManyWithoutLeadInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
+  avatar: String
+  contact: String
+  token: String
 }
 
 input UserUpdateOneRequiredInput {
@@ -898,6 +943,9 @@ input UserUpdateOneRequiredWithoutProjectsInput {
 
 input UserUpdateWithoutProjectsDataInput {
   name: String
+  avatar: String
+  contact: String
+  token: String
 }
 
 input UserUpsertNestedInput {
@@ -939,6 +987,48 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  avatar: String
+  avatar_not: String
+  avatar_in: [String!]
+  avatar_not_in: [String!]
+  avatar_lt: String
+  avatar_lte: String
+  avatar_gt: String
+  avatar_gte: String
+  avatar_contains: String
+  avatar_not_contains: String
+  avatar_starts_with: String
+  avatar_not_starts_with: String
+  avatar_ends_with: String
+  avatar_not_ends_with: String
+  contact: String
+  contact_not: String
+  contact_in: [String!]
+  contact_not_in: [String!]
+  contact_lt: String
+  contact_lte: String
+  contact_gt: String
+  contact_gte: String
+  contact_contains: String
+  contact_not_contains: String
+  contact_starts_with: String
+  contact_not_starts_with: String
+  contact_ends_with: String
+  contact_not_ends_with: String
+  token: String
+  token_not: String
+  token_in: [String!]
+  token_not_in: [String!]
+  token_lt: String
+  token_lte: String
+  token_gt: String
+  token_gte: String
+  token_contains: String
+  token_not_contains: String
+  token_starts_with: String
+  token_not_starts_with: String
+  token_ends_with: String
+  token_not_ends_with: String
   projects_every: ProjectWhereInput
   projects_some: ProjectWhereInput
   projects_none: ProjectWhereInput
@@ -949,5 +1039,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  token: String
 }
 `

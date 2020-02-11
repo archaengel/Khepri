@@ -1,6 +1,10 @@
 import { IResolvers } from 'apollo-server-express';
-import { ObjectId } from 'mongodb';
-import { Prisma, User } from '../../__generated__/prisma-client';
+import {
+  Prisma,
+  prisma,
+  User,
+  Project
+} from '../../__generated__/prisma-client';
 
 export const userResolvers: IResolvers = {
   Query: {
@@ -29,6 +33,9 @@ export const userResolvers: IResolvers = {
     }
   },
   User: {
-    id: (user: User): string => user.id
+    id: (user: User): string => user.id,
+    projects: async (user: User): Promise<Project[]> => {
+      return await prisma.user({ id: user.id }).projects();
+    }
   }
 };

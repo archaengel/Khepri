@@ -1,0 +1,8 @@
+.create-issue-modal__form-header {
+  padding-bottom: 20px;
+}
+
+.create-issue-modal__form-title.ant-typography {
+  color: #1d226c;
+  margin-bottom: 5px;
+}

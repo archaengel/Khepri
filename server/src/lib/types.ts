@@ -1,27 +1,42 @@
-import { Collection, ObjectId } from 'mongodb';
+import { Project as PrismaProject } from '../__generated__/prisma-client';
 
-export interface User {
-  _id: ObjectId;
-  name: string;
+export interface Viewer {
+  id?: string;
+  avatar?: string;
+  token?: string;
+  projects: PrismaProject[];
+  didRequest: boolean;
+}
+
+export interface Comment {
+  author: User;
+  id: string;
+  content: string;
+  issues: Issue;
 }
 
 export interface Issue {
+  id: string;
   title: string;
   content: string;
-  authorId: ObjectId;
-  _id: ObjectId;
   status: string;
+  author: User;
+  project: Project;
+  comments: Comment[];
 }
 
 export interface Project {
   name: string;
-  _id: ObjectId;
-  issueIds: ObjectId[];
-  leadId: ObjectId;
+  id: string;
+  issues: Issue[];
+  lead: User;
 }
 
-export interface Database {
-  users: Collection<User>;
-  issues: Collection<Issue>;
-  projects: Collection<Project>;
+export interface User {
+  id: string;
+  token?: string;
+  contact: string;
+  avatar: string;
+  name: string;
+  projects: Project[];
 }
