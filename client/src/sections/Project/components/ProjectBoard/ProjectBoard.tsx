@@ -59,7 +59,7 @@ export const ProjectBoard = ({
   const [isModalVisible, setModalVisible] = useState(false);
 
   const moveLeftButton =
-    position !== 0 ? (
+    position !== 0 && position !== 1 && position !== statuses.length - 1 ? (
       <Menu.Item disabled={position === 0} key="moveLeft">
         <div
           onClick={() => handleMoveColumnLeft(position - 1, position, status)}
@@ -72,6 +72,8 @@ export const ProjectBoard = ({
     ) : null;
 
   const moveRightButton =
+    position !== 0 &&
+    position !== statuses.length - 2 &&
     position !== statuses.length - 1 ? (
       <Menu.Item disabled={position === statuses.length - 1} key="moveRight">
         <div
