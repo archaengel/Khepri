@@ -1,24 +1,38 @@
-import express from 'express';
+import express, { Request, Response, Application } from 'express';
+import { ApolloServer } from 'apollo-server-express';
+import cookieParser from 'cookie-parser';
+import { resolvers, typeDefs } from './graphql';
 import { resolve } from 'path';
-import { projects } from './projects';
+import { prisma, Prisma } from './__generated__/prisma-client';
 
-const nodeEnv = process.env.NODE_ENV || 'development';
-const port = process.env.PORT || 3000;
+interface ApolloContext {
+  prisma: Prisma;
+  req: Request;
+  res: Response;
+}
 
-const app = express();
+const mount = async (app: Application): Promise<void> => {
+  app.use(cookieParser(process.env.SECRET));
+  app.use(express.static(resolve(__dirname, '..', '..', 'client', 'build')));
 
-app.use(express.static(resolve(__dirname, '..', '..', 'client', 'build')));
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req, res }): ApolloContext => ({
+      prisma,
+      req,
+      res
+    })
+  });
 
-app.get('/projects', (_req, res) => {
-  res.json(projects);
-});
+  server.applyMiddleware({ app, path: '/api' });
+  app.get('/*', (_req: Request, res: Response) => {
+    res.sendFile(
+      resolve(__dirname, '..', '..', 'client', 'build', 'index.html')
+    );
+  });
+  app.listen(process.env.PORT || 5000);
+  console.log(`[app]: Now listening on ${process.env.PORT || 5000}`);
+};
 
-app.get('/:code', (_req, res) => {
-  res.sendFile(resolve(__dirname, '..', '..', 'client', 'build', 'index.html'));
-});
-
-app.get('*', (_req: any, res: any) => {
-  res.sendFile(resolve(__dirname, '..', '..', 'client', 'build', 'index.html'));
-});
-
-app.listen(port, () => console.log(`[app]: Now listening on ${port}`));
+mount(express());

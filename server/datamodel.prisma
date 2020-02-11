@@ -1,0 +1,33 @@
+type User {
+  id: ID! @id
+  name: String!
+  avatar: String!
+  contact: String!
+  token: String @unique
+  projects: [Project!]! @scalarList(strategy: RELATION)
+}
+
+type Project {
+  name: String!
+  id: ID! @id
+  issues: [Issue]!
+  lead: User! @relation(link: INLINE)
+  statuses: [String!]! @scalarList(strategy: RELATION) 
+}
+
+type Comment {
+  author: User! @relation(link: INLINE)
+  id: ID! @id
+  content: String!
+  issue: Issue! @relation(link: INLINE)
+}
+
+type Issue {
+  title: String!
+  content: String!
+  author: User! @relation(link: INLINE)
+  id: ID! @id
+  status: String! @default(value: "Backlog")
+  project: Project! @relation(link: INLINE)
+  comments: [Comment]!
+}
