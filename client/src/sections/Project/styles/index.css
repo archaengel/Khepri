@@ -1,5 +1,5 @@
 .project-content {
-  padding: 60px 20px;
+  padding: 20px;
   overflow-x: scroll !important;
 }
 
@@ -44,4 +44,10 @@
 
 .project__status-input {
   padding: 24px 0;
+}
+
+.project-header.ant-layout-header {
+  display: flex;
+  align-items: center;
+  background: #fff;
 }

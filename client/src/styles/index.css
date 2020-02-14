@@ -13,5 +13,19 @@ html {
   min-height: 100vh;
 }
 
-.project-content > .ant-row > .ant-col:last-child {
+.app-sider {
+  position: fixed;
+  height: 100vh;
+  overflow: auto;
+  left: 0;
+}
+
+.app-layout {
+  margin-left: 200px;
+}
+
+.logo {
+  background: rgba(248, 164, 164, 0.644);
+  height: 32px;
+  margin: 16px;
 }

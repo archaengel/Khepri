@@ -28,15 +28,6 @@ export const AppSiderMenuItems = ({ viewer, setViewer }: Props) => {
     }
   });
 
-  // const {} = useQuery<ProjectsByLeadData, ProjectsByLeadVariables>(
-  //   PROJECTS_BY_LEAD,
-  //   {
-  //     variables: {
-  //       leadId: viewer.id
-  //     }
-  //   }
-  // );
-
   const handleLogOut = () => {
     logOut();
   };
@@ -86,6 +77,7 @@ export const AppSiderMenuItems = ({ viewer, setViewer }: Props) => {
     ) : null;
   return (
     <Menu mode="inline" theme="dark">
+      <div className="logo" />
       {subMenuLogin}
       {subMenuProjects}
     </Menu>

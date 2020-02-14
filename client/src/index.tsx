@@ -4,7 +4,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider, useMutation } from '@apollo/react-hooks';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Project, LogIn, AppSider } from './sections';
-import { Layout, Spin } from 'antd';
+import { Affix, Layout, Spin } from 'antd';
 import { LOG_IN } from './lib/graphql/mutations';
 import {
   LogIn as LogInData,
@@ -70,7 +70,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Router>
-        <Layout id="app">
+        <Layout id="app" className="app-layout">
           <AppSider viewer={viewer} setViewer={setViewer} />
           <Switch>
             <Route path="/" exact component={() => <h1>Home</h1>} />
