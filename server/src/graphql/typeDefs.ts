@@ -74,6 +74,10 @@ export const typeDefs = gql`
     name: String!
   }
 
+  input DeleteProjectInput {
+    id: ID!
+  }
+
   type Query {
     authUrl: String!
     user(id: ID!): User
@@ -95,7 +99,7 @@ export const typeDefs = gql`
     updateProjectStatuses(input: UpdateProjectStatusesInput!): Project!
     deleteUser(userId: ID!): User!
     deleteIssue(input: DeleteIssueInput!): Issue!
-    deleteProject(projectId: ID!): Project!
+    deleteProject(input: DeleteProjectInput!): Project!
     deleteComment(commentId: ID!): Comment!
   }
 `;

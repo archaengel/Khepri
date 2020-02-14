@@ -22,6 +22,10 @@ export interface DeleteIssueInput {
   id: string;
 }
 
+export interface DeleteProjectInput {
+  id: string;
+}
+
 export interface LogInInput {
   code: string;
 }

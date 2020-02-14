@@ -176,7 +176,7 @@ export const Project = ({ viewer }: Props) => {
   return (
     <Layout>
       <Affix>
-        <ProjectHeader viewerId={viewerId} title={name} />
+        <ProjectHeader projectId={id} viewerId={viewerId} title={name} />
       </Affix>
       <Content className="project-content">
         <Row gutter={50}>

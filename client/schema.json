@@ -959,14 +959,14 @@
             "description": null,
             "args": [
               {
-                "name": "projectId",
+                "name": "input",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
+                    "kind": "INPUT_OBJECT",
+                    "name": "DeleteProjectInput",
                     "ofType": null
                   }
                 },
@@ -1353,6 +1353,31 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "DeleteIssueInput",
+        "description": null,
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "id",
+            "description": null,
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "DeleteProjectInput",
         "description": null,
         "fields": null,
         "inputFields": [

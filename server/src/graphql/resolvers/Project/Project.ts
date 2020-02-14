@@ -6,7 +6,11 @@ import {
   prisma,
   Issue
 } from '../../../__generated__/prisma-client';
-import { UpdateProjectStatusesArgs, CreateProjectArgs } from './types';
+import {
+  UpdateProjectStatusesArgs,
+  CreateProjectArgs,
+  DeleteProjectArgs
+} from './types';
 import { Request } from 'express';
 import { authorize } from '../../../lib/utils';
 
@@ -88,10 +92,38 @@ export const projectResolvers: IResolvers = {
     },
     deleteProject: async (
       _root: undefined,
-      { id }: { id: string },
-      { prisma }: { prisma: Prisma }
+      { input }: DeleteProjectArgs,
+      { prisma, req }: { prisma: Prisma; req: Request }
     ): Promise<Project> => {
-      return await prisma.deleteProject({ id });
+      try {
+        const { id } = input;
+        const viewer = await authorize(prisma, req);
+        if (!viewer) {
+          throw new Error('viewer cannot be found');
+        }
+
+        const project = await prisma.project({ id });
+        if (!project) {
+          throw new Error('project cannout be found');
+        }
+
+        const lead = await prisma.project({ id }).lead();
+        if (!lead) {
+          throw new Error('project lead cannout be found');
+        }
+
+        if (lead.id !== viewer.id) {
+          throw new Error('only project lead can delete project');
+        }
+
+        const deletedIssues = await prisma.deleteManyIssues({
+          project: { id: project.id }
+        });
+        const deletedProject = await prisma.deleteProject({ id });
+        return deletedProject;
+      } catch (error) {
+        throw new Error(`Failed to delete project: ${error}`);
+      }
     },
     updateProjectStatuses: async (
       _root: undefined,

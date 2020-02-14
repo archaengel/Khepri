@@ -14,3 +14,11 @@ export interface CreateProjectArgs {
 export interface CreateProjectInput {
   name: string;
 }
+
+export interface DeleteProjectArgs {
+  input: DeleteProjectInput;
+}
+
+export interface DeleteProjectInput {
+  id: string;
+}
