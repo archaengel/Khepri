@@ -1,12 +1,11 @@
 .project-content {
   padding: 20px;
-  overflow-x: scroll !important;
+  overflow: scroll !important;
 }
 
 .project-content > .ant-row {
   display: flex;
   margin-right: 20px;
-  overflow-x: visible;
 }
 
 .project-content > .ant-row:last-child {
@@ -15,6 +14,8 @@
 
 .project-board__list {
   width: 100%;
+  height: 50%;
+  overflow-y: scroll !important;
 }
 
 .project-board__list-item.ant-list-item {
@@ -47,7 +48,20 @@
 }
 
 .project-header.ant-layout-header {
-  display: flex;
   align-items: center;
   background: #fff;
+  box-shadow: 0 2px 8px #f0f1f2;
+  display: flex;
+}
+
+.project-header__title.ant-typography {
+  margin: 0;
+}
+
+.project-header > .project-header__menu-section {
+  float: right;
+}
+
+.project-header__menu.ant-menu {
+  border: 0;
 }

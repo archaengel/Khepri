@@ -79,7 +79,7 @@ const App: React.FC = () => {
             </Route>
             <Route exact path="/user/:id" component={() => <h2>user</h2>} />
             <Route exact path="/project/:id">
-              <Project />
+              <Project viewer={viewer} />
             </Route>
           </Switch>
         </Layout>

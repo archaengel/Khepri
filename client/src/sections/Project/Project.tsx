@@ -19,6 +19,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { Affix, Layout, Icon, Input, Col, Row, Typography } from 'antd';
 import './styles/index.css';
+import { Viewer } from '../../lib/types';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -27,10 +28,15 @@ interface MatchParams {
   id: string;
 }
 
-export const Project = () => {
+interface Props {
+  viewer: Viewer;
+}
+
+export const Project = ({ viewer }: Props) => {
   const { id } = useParams<MatchParams>();
   const [isVisible, setModalVisible] = useState(false);
   const [status, setStatus] = useState('');
+  const viewerId = viewer.id;
 
   const { data, loading: projectLoading, error, refetch } = useQuery<
     ProjectData,
@@ -170,7 +176,7 @@ export const Project = () => {
   return (
     <Layout>
       <Affix>
-        <ProjectHeader title={name} />
+        <ProjectHeader viewerId={viewerId} title={name} />
       </Affix>
       <Content className="project-content">
         <Row gutter={50}>

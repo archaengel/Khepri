@@ -70,6 +70,10 @@ export const typeDefs = gql`
     statuses: [String!]!
   }
 
+  input CreateProjectInput {
+    name: String!
+  }
+
   type Query {
     authUrl: String!
     user(id: ID!): User
@@ -87,6 +91,7 @@ export const typeDefs = gql`
     logOut: Viewer!
     createIssue(input: CreateIssueInput!): Issue!
     updateIssue(input: UpdateIssueInput!): Issue!
+    createProject(input: CreateProjectInput!): Project!
     updateProjectStatuses(input: UpdateProjectStatusesInput!): Project!
     deleteUser(userId: ID!): User!
     deleteIssue(input: DeleteIssueInput!): Issue!
