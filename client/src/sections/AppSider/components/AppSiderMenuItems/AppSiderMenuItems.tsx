@@ -67,7 +67,7 @@ export const AppSiderMenuItems = ({ viewer, setViewer }: Props) => {
         {projectList
           ? projectList.map((project) =>
               project ? (
-                <Item key={`project.name`}>
+                <Item key={`project.name`} unselectable="on">
                   <Link to={`/project/${project.id}`}>{project.name}</Link>
                 </Item>
               ) : null
@@ -76,7 +76,7 @@ export const AppSiderMenuItems = ({ viewer, setViewer }: Props) => {
       </SubMenu>
     ) : null;
   return (
-    <Menu mode="inline" theme="dark">
+    <Menu mode="inline" theme="dark" selectable={false}>
       <div className="logo" />
       {subMenuLogin}
       {subMenuProjects}

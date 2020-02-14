@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const ProjectHeader = ({ viewerId, title }: Props) => {
-  const [isModalVisible, setModalVisible] = useState(true);
+  const [isModalVisible, setModalVisible] = useState(false);
   return (
     <Header className="project-header">
       <CreateProjectModal
@@ -23,7 +23,11 @@ export const ProjectHeader = ({ viewerId, title }: Props) => {
         {title}
       </Title>
       <div className="project-header__menu-section">
-        <Menu mode="horizontal" className="project-header__menu">
+        <Menu
+          selectable={false}
+          mode="horizontal"
+          className="project-header__menu"
+        >
           <Menu.Item>
             <Button onClick={() => setModalVisible(true)}>
               <span>

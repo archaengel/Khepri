@@ -1,4 +1,11 @@
 import React, { FormEvent } from 'react';
+import { useMutation } from '@apollo/react-hooks';
+import { Redirect } from 'react-router-dom';
+import { CREATE_PROJECT } from '../../../../lib/graphql/mutations';
+import {
+  CreateProject as CreateProjectData,
+  CreateProjectVariables
+} from '../../../../lib/graphql/mutations/CreateProject/__generated__/CreateProject';
 import { Input, Form, Modal, Typography, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 
@@ -18,6 +25,10 @@ export const CreateProjectModal = ({
   form
 }: Props & FormComponentProps) => {
   const { getFieldDecorator } = form;
+  const [createProject, { data, loading, error }] = useMutation<
+    CreateProjectData,
+    CreateProjectVariables
+  >(CREATE_PROJECT);
   const handleCreateProject = async (evt: FormEvent): Promise<void> => {
     evt.preventDefault();
 
@@ -26,15 +37,25 @@ export const CreateProjectModal = ({
         console.error(err);
         return;
       }
+      console.log(values);
 
-      console.log({
-        ...values,
-        lead: viewerId
+      createProject({
+        variables: {
+          input: {
+            ...values
+          }
+        }
       });
       setModalVisible(false);
       form.resetFields();
     });
   };
+
+  if (data && data.createProject.id) {
+    const createdProjectId = data.createProject.id;
+    console.log(data);
+    return <Redirect to={`/project/${createdProjectId}`} />;
+  }
 
   return (
     <Modal

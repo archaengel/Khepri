@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 //==============================================================
@@ -11,6 +12,10 @@ export interface CreateIssueInput {
   content: string;
   projectId: string;
   status: string;
+}
+
+export interface CreateProjectInput {
+  name: string;
 }
 
 export interface DeleteIssueInput {

@@ -33,6 +33,7 @@ export const projectResolvers: IResolvers = {
       { input }: CreateProjectArgs,
       { prisma, req }: { prisma: Prisma; req: Request }
     ): Promise<Project> => {
+      console.log('hi');
       try {
         const { name } = input;
         const viewer = await authorize(prisma, req);
@@ -45,6 +46,38 @@ export const projectResolvers: IResolvers = {
           lead: { connect: { id: viewer.id } },
           statuses: {
             set: ['Backlog', 'Ready for Dev', 'In Progress', 'Completed']
+          },
+          issues: {
+            create: [
+              {
+                title: 'New Items Start Here',
+                content:
+                  "All new items begin are created and begin here, in 'Backlog'.",
+                status: 'Backlog',
+                author: { connect: { id: viewer.id } }
+              },
+              {
+                title: 'Items are Ready',
+                content:
+                  "Items which are ready to be developed are moved here from 'Backlog'.",
+                status: 'Ready for Dev',
+                author: { connect: { id: viewer.id } }
+              },
+              {
+                title: 'Working on It',
+                content:
+                  "Items which are actively being developed are moved here from 'Ready for Dev'",
+                status: 'In Progress',
+                author: { connect: { id: viewer.id } }
+              },
+              {
+                title: 'All Done',
+                content:
+                  "Items which are no longer being developed and are ready for production end up here, after 'In Progress'",
+                status: 'Completed',
+                author: { connect: { id: viewer.id } }
+              }
+            ]
           }
         });
 
